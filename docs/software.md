@@ -5,6 +5,7 @@ El sistema operativo del barco a control remoto está dividido en una arquitectu
 Este documento detalla la estructura y el flujo de los scripts `MAESTRO_BRUSHLESS.ino` y `ESCLAVO_BRUSHLESS.ino`.
 
 ---
+
 ## 1. Arquitectura de Comunicación y Topología Dual
 
 El sistema operativo del barco requiere una configuración asimétrica dividida en dos firmwares independientes cargados en dos microcontroladores ESP32 separados:
@@ -16,7 +17,9 @@ El sistema operativo del barco requiere una configuración asimétrica dividida 
 [cite_start]La comunicación por el puerto `Serial2` (pines 16 y 17) opera de manera unidireccional a una tasa de transferencia alta de 115200 baudios[cite: 3, 16, 30, 51]. Al utilizar el método de **Broadcast**, el Maestro inyecta la trama directamente al espectro sin esperar confirmaciones de recepción (ACK) ni establecer handshakes previos. 
 
 Esto garantiza que el retardo entre el movimiento del joystick en tierra y la respuesta del timón o motor en el agua sea prácticamente nulo, optimizando la maniobrabilidad de la embarcación bajo condiciones de estrés operativo.
+
 ---
+
 ## 2. Arquitectura de Comunicación (Capa de Enlace)
 
 Para garantizar que el barco no interprete ruido electromagnético o paquetes a medias como comandos, se diseñó un protocolo de envío rígido utilizando los módulos XBee por el puerto Serial2 a 115200 baudios.
