@@ -61,6 +61,6 @@ El script `ESCLAVO_BRUSHLESS.ino` es el cerebro del barco. Su objetivo principal
 
 ---
 
-## 4. Dependencias Requeridas
+## 5. Dependencias Requeridas
 * **Bluepad32:** Para la gestión del control Bluetooth de PS4 (Lado Maestro).
 * **ESP32Servo:** Para la correcta manipulación de señales de control en microsegundos y evitar problemas de hardware con los temporizadores nativos (Lado Esclavo).
