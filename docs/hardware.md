@@ -52,10 +52,12 @@ La placa fue fabricada mediante un método híbrido de sustracción que combina 
 **Características del Diseño:**
 * **Planos de Masa (Ground Planes):** Diseñados para maximizar la unificación de tierras de los diferentes componentes y disipar mejor el calor.
 * **Conectores Modulares:** Se integraron pines y regletas para montar y desmontar fácilmente el ESP32 y el módulo XBee sin necesidad de soldarlos directamente a la placa, facilitando recambios.
+Aquí podemos ver el resultado del ataque químico sobre el cobre:
 
+![Placa de circuito del barco](/images/Placa.jpeg)
 ---
 
 ## 5. Esquemas y Simulación
 
 Toda la validación de conexiones, lógica de pines y disposición de componentes se diseñó previamente.
-*(Se recomienda anexar aquí los archivos o capturas del esquema en Proteus correspondientes al diseño de la PCB actual).*
+[Descargar esquema de Proteus del Barco](/hardware/proteus/Barco.pdsprj)
