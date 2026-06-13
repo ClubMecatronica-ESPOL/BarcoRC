@@ -5,8 +5,19 @@ El sistema operativo del barco a control remoto está dividido en una arquitectu
 Este documento detalla la estructura y el flujo de los scripts `MAESTRO_BRUSHLESS.ino` y `ESCLAVO_BRUSHLESS.ino`.
 
 ---
+## 1. Arquitectura de Comunicación y Topología Dual
 
-## 1. Arquitectura de Comunicación (Capa de Enlace)
+El sistema operativo del barco requiere una configuración asimétrica dividida en dos firmwares independientes cargados en dos microcontroladores ESP32 separados:
+
+1.  **Nodo Maestro (Transmisor):** Dedicado exclusivamente a procesar las interrupciones del stack Bluetooth del control de PS4, mapear las zonas muertas y transmitir los comandos por hardware serial.
+2.  **Nodo Esclavo (Receptor):** Dedicado a la escucha continua del puerto serial, filtrado matemático de datos, ejecución de la secuencia de armado y generación de señales PWM de potencia.
+
+### Capa de Enlace en Modo Broadcast (Difusión)
+[cite_start]La comunicación por el puerto `Serial2` (pines 16 y 17) opera de manera unidireccional a una tasa de transferencia alta de 115200 baudios[cite: 3, 16, 30, 51]. Al utilizar el método de **Broadcast**, el Maestro inyecta la trama directamente al espectro sin esperar confirmaciones de recepción (ACK) ni establecer handshakes previos. 
+
+Esto garantiza que el retardo entre el movimiento del joystick en tierra y la respuesta del timón o motor en el agua sea prácticamente nulo, optimizando la maniobrabilidad de la embarcación bajo condiciones de estrés operativo.
+---
+## 2. Arquitectura de Comunicación (Capa de Enlace)
 
 Para garantizar que el barco no interprete ruido electromagnético o paquetes a medias como comandos, se diseñó un protocolo de envío rígido utilizando los módulos XBee por el puerto Serial2 a 115200 baudios.
 
@@ -22,7 +33,7 @@ Cada instrucción enviada por el Maestro consta de 4 bytes estrictos:
 
 ---
 
-## 2. Controlador Maestro (Transmisor)
+## 3. Controlador Maestro (Transmisor)
 
 El script `MAESTRO_BRUSHLESS.ino` actúa como el puente entre el usuario (mediante el control de PS4) y el módulo transmisor XBee.
 
@@ -33,7 +44,7 @@ El script `MAESTRO_BRUSHLESS.ino` actúa como el puente entre el usuario (median
 
 ---
 
-## 3. Controlador Esclavo (Receptor)
+## 4. Controlador Esclavo (Receptor)
 
 El script `ESCLAVO_BRUSHLESS.ino` es el cerebro del barco. Su objetivo principal es interpretar de forma segura las instrucciones del XBee, transformándolas en señales PWM y cuidando los componentes electrónicos.
 
