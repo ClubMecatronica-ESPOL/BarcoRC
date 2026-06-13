@@ -1,6 +1,6 @@
 # 🛠️ Documentación de Hardware: Electrónica y Diseño de PCB
 
-Este documento detalla la arquitectura de hardware de la embarcación, los componentes principales y el diseño de la placa de circuito impreso (PCB) desarrollada para garantizar la estabilidad del sistema frente al ruido electromagnético.
+Este documento detalla la arquitectura de hardware de la embarcación, los componentes principales y el diseño de la placa de circuito impreso (PCB) desarrollada para integrar el sistema de control.
 
 ---
 
@@ -10,7 +10,7 @@ La electrónica de la embarcación está segmentada en dos módulos principales:
 
 ### Transmisor (Maestro)
 * **Microcontrolador:** ESP32 (Maneja la recepción Bluetooth del control de PS4 y el empaquetado de datos).
-* **Módulo de Comunicación:** XBee Pro S1. Actúa como enlace de radiofrecuencia (RF) punto a punto de largo alcance y alta fiabilidad.
+* **Módulo de Comunicación:** XBee Pro S1. Actúa como enlace de radiofrecuencia (RF) punto a punto de largo alcance.
 
 ### Receptor (Esclavo - Barco)
 * **Microcontrolador:** ESP32 (Interpreta la trama de datos y genera las señales PWM).
@@ -20,34 +20,32 @@ La electrónica de la embarcación está segmentada en dos módulos principales:
 
 ---
 
-## 2. Gestión de Energía e Interferencias
+## 2. Gestión de Energía e Interfaz de Potencia
 
-Uno de los mayores retos en la ingeniería de vehículos RC con motores Brushless es el ruido electromagnético (EMI) y los picos de consumo de corriente. Si el ESC y el motor comparten la misma línea de alimentación sin filtrado con el microcontrolador, los picos de arranque del motor pueden causar caídas de tensión (brownouts) que reinician el ESP32 o corrompen los datos del XBee.
+La alimentación del sistema en el barco está centralizada para optimizar el peso y simplificar las conexiones:
 
-**Solución Implementada:**
-* **Aislamiento de Lógica y Potencia:** Se separó físicamente la circuitería lógica (que opera a 3.3V para el ESP32 y el XBee) de las líneas de alta corriente que van hacia el ESC y el motor Brushless.
-* **Filtrado:** Uso de capacitores de desacople estratégicamente ubicados para absorber picos de voltaje y estabilizar las señales.
+* **Alimentación Principal:** Batería LiPo de alta descarga conectada directamente al controlador de velocidad (ESC).
+* **Alimentación Lógica (BEC):** Se está utilizando el circuito regulador interno (BEC - Battery Eliminator Circuit) de 5V del propio ESC. Este voltaje de 5V se inyecta directamente al pin **VIN** del ESP32, alimentando así la etapa lógica.
+* *(Nota de Desarrollo: Actualmente el sistema opera con conexiones directas sin una etapa de filtrado adicional con capacitores. A medida que avancen las pruebas de carga mecánica en el agua, se evaluará si el ruido del motor Brushless requiere implementar un banco de condensadores de desacople).*
 
 ---
 
 ## 3. Placa de Circuito Impreso (PCB) a Medida
 
-Para pasar del protoboard a una solución robusta y resistente a las vibraciones mecánicas propias de una embarcación, se manufacturó una PCB personalizada mediante fresado (aislamiento de pistas). 
+Para pasar del protoboard a una solución más sólida y evitar desconexiones por las vibraciones mecánicas propias de una embarcación, se manufacturó una PCB personalizada en cobre.
 
-**Características del Diseño de la PCB:**
-* **Planos de Masa (Ground Planes):** Maximizan la dispersión de calor y actúan como blindaje electromagnético contra el ruido generado por la conmutación del motor Brushless.
-* **Trazos de Señal Aislados:** Las pistas de comunicación serial (TX/RX) entre el ESP32 y el XBee están ruteadas evitando paralelismos innecesarios con las líneas de alimentación.
-* **Conectores Modulares:** Se integraron regletas y pines (headers) hembra/macho para permitir el fácil reemplazo del ESP32 o el XBee sin necesidad de desoldar componentes.
+**Método de Fabricación:**
+La placa fue fabricada mediante un método híbrido de sustracción que combina fabricación digital y ataque químico:
+1. **Ablación Láser:** Se aplicó una capa protectora sobre la placa de cobre virgen y se utilizó un láser de corte/grabado para retirar selectivamente esta máscara, dejando expuestas únicamente las áreas correspondientes al aislamiento de las pistas.
+2. **Ataque Químico:** Posteriormente, la placa fue sumergida en Cloruro Férrico, el cual reaccionó y disolvió el cobre expuesto, dejando las pistas limpias y perfectamente definidas bajo la pintura restante.
 
-*(Nota: En la carpeta `/images` de este repositorio se puede visualizar la placa fresada en cobre).*
+**Características del Diseño:**
+* **Planos de Masa (Ground Planes):** Diseñados para maximizar la unificación de tierras de los diferentes componentes y disipar mejor el calor.
+* **Conectores Modulares:** Se integraron pines y regletas para montar y desmontar fácilmente el ESP32 y el módulo XBee sin necesidad de soldarlos directamente a la placa, facilitando recambios.
 
 ---
 
-## 4. Esquemas y Simulación en Proteus
+## 4. Esquemas y Simulación
 
-Toda la validación de conexiones, lógica de pines y disposición de componentes se simuló y esquematizó previamente en software.
-
-Los archivos fuente del circuito se encuentran en la carpeta `/hardware/proteus` de este repositorio. Para visualizar o editar el circuito:
-1. Asegúrate de tener instalado Proteus Design Suite.
-2. Abre el archivo principal `.pdsprj`.
-3. Revisa la correcta asignación de las librerías del ESP32 y XBee en tu entorno local antes de ejecutar la simulación.
+Toda la validación de conexiones, lógica de pines y disposición de componentes se diseñó previamente.
+*(Se recomienda anexar aquí los archivos o capturas del esquema en Proteus correspondientes al diseño de la PCB actual).*
