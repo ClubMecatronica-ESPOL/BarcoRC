@@ -60,4 +60,4 @@ Aquí podemos ver el resultado del ataque químico sobre el cobre:
 ## 5. Esquemas y Simulación
 
 Toda la validación de conexiones, lógica de pines y disposición de componentes se diseñó previamente.
-[Descargar esquema de Proteus del Barco](/hardware/proteus/Barco.pdsprj)
+[Descargar esquema de Proteus del Barco](/hardware/proteus)
