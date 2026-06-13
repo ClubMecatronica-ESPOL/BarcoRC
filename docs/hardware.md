@@ -54,7 +54,7 @@ La placa fue fabricada mediante un método híbrido de sustracción que combina 
 * **Conectores Modulares:** Se integraron pines y regletas para montar y desmontar fácilmente el ESP32 y el módulo XBee sin necesidad de soldarlos directamente a la placa, facilitando recambios.
 Aquí podemos ver el resultado del ataque químico sobre el cobre:
 
-![Placa de circuito del barco](/images/Placa.jpeg)
+<img src="/images/Placa.jpeg" width="40%" alt="Placa de control">
 ---
 
 ## 5. Esquemas y Simulación
