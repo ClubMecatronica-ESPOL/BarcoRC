@@ -17,10 +17,20 @@ La electrónica de la embarcación está segmentada en dos módulos principales:
 * **Módulo de Comunicación:** XBee Pro S1.
 * **Propulsión Principal:** Motor Brushless acoplado a un ESC (Electronic Speed Controller).
 * **Dirección:** Servomotor estándar conectado al timón.
-
 ---
 
-## 2. Gestión de Energía e Interfaz de Potencia
+## 2. Configuración de Red XBee (Modo Broadcast)
+
+Para minimizar el retardo (delay) en el envío de comandos críticos de dirección y aceleración, los módulos **XBee Pro S1** no utilizan direccionamiento cerrado ni topologías de malla pesadas. En su lugar, se configuraron en **Modo Broadcast (Difusión)**, lo que elimina el tiempo de procesamiento que le toma al módulo buscar y verificar una ruta específica en el aire.
+
+### Parámetros en XCTU:
+* **DL (Destination Address Low):** `0xFFFF` (Dirección de Broadcast estándar para que cualquier módulo en el canal escuche la trama).
+* **DH (Destination Address High):** `0x0000`
+* **MY (Source Address):** Se asigna un identificador único para cada nodo en la red.
+* **BD (Baud Rate):** `7` (`115200` bps), configurado para igualar la velocidad de los puertos UART de los microcontroladores.
+---
+
+## 3. Gestión de Energía e Interfaz de Potencia
 
 La alimentación del sistema en el barco está centralizada para optimizar el peso y simplificar las conexiones:
 
@@ -30,7 +40,7 @@ La alimentación del sistema en el barco está centralizada para optimizar el pe
 
 ---
 
-## 3. Placa de Circuito Impreso (PCB) a Medida
+## 4. Placa de Circuito Impreso (PCB) a Medida
 
 Para pasar del protoboard a una solución más sólida y evitar desconexiones por las vibraciones mecánicas propias de una embarcación, se manufacturó una PCB personalizada en cobre.
 
@@ -45,7 +55,7 @@ La placa fue fabricada mediante un método híbrido de sustracción que combina 
 
 ---
 
-## 4. Esquemas y Simulación
+## 5. Esquemas y Simulación
 
 Toda la validación de conexiones, lógica de pines y disposición de componentes se diseñó previamente.
 *(Se recomienda anexar aquí los archivos o capturas del esquema en Proteus correspondientes al diseño de la PCB actual).*
